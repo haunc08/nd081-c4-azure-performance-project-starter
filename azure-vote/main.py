@@ -23,35 +23,27 @@ from opencensus.ext.flask.flask_middleware import FlaskMiddleware
 insights_conn = 'InstrumentationKey=54700140-05d7-4ca3-b3d9-0a3e7b18d639'
 config_integration.trace_integrations(['logging'])
 logger = logging.getLogger(__name__)
-handler = AzureLogHandler(
-    connection_string=insights_conn)
+handler = AzureLogHandler(connection_string=insights_conn)
 logger.addHandler(handler)
-logger.addHandler(AzureEventHandler(
-    connection_string=insights_conn))
+logger.addHandler(AzureEventHandler(connection_string=insights_conn))
 logger.setLevel(logging.DEBUG)
 
 # Metrics
 stats = stats_module.stats
 view_manager = stats.view_manager
-exporter = metrics_exporter.new_metrics_exporter(enable_standard_metrics=True,
-                                                 connection_string=insights_conn)
+exporter = metrics_exporter.new_metrics_exporter(
+    enable_standard_metrics=True, connection_string=insights_conn)
 view_manager.register_exporter(exporter)
 
 # Tracing
-tracer = Tracer(
-    exporter=AzureExporter(
-        connection_string=insights_conn),
-    sampler=ProbabilitySampler(1.0)
-)
+tracer = Tracer(exporter=AzureExporter(connection_string=insights_conn), sampler=ProbabilitySampler(1.0)
+                )
 
 app = Flask(__name__)
 
 # Requests
-middleware = FlaskMiddleware(app,
-                             exporter=AzureExporter(
-                                 connection_string=insights_conn),
-                             sampler=ProbabilitySampler(rate=1.0)
-                             )
+middleware = FlaskMiddleware(app, exporter=AzureExporter(
+    connection_string=insights_conn), sampler=ProbabilitySampler(rate=1.0))
 
 # Load configurations from environment or config file
 app.config.from_pyfile('config_file.cfg')
@@ -132,6 +124,4 @@ def index():
             return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
 
 
-if __name__ == "__main__":
-    # app.run()
-    app.run(host='0.0.0.0', threaded=True, debug=True)  # remote
+app.run(host='0.0.0.0', threaded=True, debug=True)  # remote
