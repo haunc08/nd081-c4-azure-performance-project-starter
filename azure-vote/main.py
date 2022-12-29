@@ -5,7 +5,6 @@ import redis
 import socket
 import sys
 import logging
-from datetime import datetime
 
 
 # App Insights
@@ -27,6 +26,7 @@ handler = AzureLogHandler(connection_string=insights_conn)
 logger.addHandler(handler)
 logger.addHandler(AzureEventHandler(connection_string=insights_conn))
 logger.setLevel(logging.DEBUG)
+logger.log(30, 'Hello, World!')
 
 # Metrics
 stats = stats_module.stats
