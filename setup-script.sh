@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-resourceGroup="acdnd-c4-project"
+resourceGroup="az-perf"
 location="westus"
 osType="UbuntuLTS"
 vmssName="udacity-vmss"
@@ -17,18 +17,18 @@ probeName="tcpProbe"
 vmSize="Standard_B1s"
 storageType="Standard_LRS"
 
-# Create resource group. 
-# This command will not work for the Cloud Lab users. 
-# Cloud Lab users can comment this command and 
-# use the existing Resource group name, such as, resourceGroup="cloud-demo-153430" 
-echo "STEP 0 - Creating resource group $resourceGroup..."
+# Create resource group.
+# This command will not work for the Cloud Lab users.
+# Cloud Lab users can comment this command and
+# use the existing Resource group name, such as, resourceGroup="cloud-demo-153430"
+# echo "STEP 0 - Creating resource group $resourceGroup..."
 
-az group create \
---name $resourceGroup \
---location $location \
---verbose
+# az group create \
+# --name $resourceGroup \
+# --location $location \
+# --verbose
 
-echo "Resource group created: $resourceGroup"
+# echo "Resource group created: $resourceGroup"
 
 # Create Storage account
 echo "STEP 1 - Creating storage account $storageAccount"
@@ -55,21 +55,21 @@ echo "Network security group created: $nsgName"
 echo "STEP 3 - Creating VM scale set $vmssName"
 
 az vmss create \
-  --resource-group $resourceGroup \
-  --name $vmssName \
-  --image $osType \
-  --vm-sku $vmSize \
-  --nsg $nsgName \
-  --subnet $subnetName \
-  --vnet-name $vnetName \
-  --backend-pool-name $bePoolName \
-  --storage-sku $storageType \
-  --load-balancer $lbName \
-  --custom-data cloud-init.txt \
-  --upgrade-policy-mode automatic \
-  --admin-username $adminName \
-  --generate-ssh-keys \
-  --verbose 
+--resource-group $resourceGroup \
+--name $vmssName \
+--image $osType \
+--vm-sku $vmSize \
+--nsg $nsgName \
+--subnet $subnetName \
+--vnet-name $vnetName \
+--backend-pool-name $bePoolName \
+--storage-sku $storageType \
+--load-balancer $lbName \
+--custom-data cloud-init.txt \
+--upgrade-policy-mode automatic \
+--admin-username $adminName \
+--generate-ssh-keys \
+--verbose
 
 echo "VM scale set created: $vmssName"
 
@@ -89,14 +89,14 @@ echo "NSG: $nsgName associated with subnet: $subnetName"
 echo "STEP 5 - Creating health probe $probeName"
 
 az network lb probe create \
-  --resource-group $resourceGroup \
-  --lb-name $lbName \
-  --name $probeName \
-  --protocol tcp \
-  --port 80 \
-  --interval 5 \
-  --threshold 2 \
-  --verbose
+--resource-group $resourceGroup \
+--lb-name $lbName \
+--name $probeName \
+--protocol tcp \
+--port 80 \
+--interval 5 \
+--threshold 2 \
+--verbose
 
 echo "Health probe created: $probeName"
 
@@ -104,16 +104,16 @@ echo "Health probe created: $probeName"
 echo "STEP 6 - Creating network load balancer rule $lbRule"
 
 az network lb rule create \
-  --resource-group $resourceGroup \
-  --name $lbRule \
-  --lb-name $lbName \
-  --probe-name $probeName \
-  --backend-pool-name $bePoolName \
-  --backend-port 80 \
-  --frontend-ip-name loadBalancerFrontEnd \
-  --frontend-port 80 \
-  --protocol tcp \
-  --verbose
+--resource-group $resourceGroup \
+--name $lbRule \
+--lb-name $lbName \
+--probe-name $probeName \
+--backend-pool-name $bePoolName \
+--backend-port 80 \
+--frontend-ip-name loadBalancerFrontEnd \
+--frontend-port 80 \
+--protocol tcp \
+--verbose
 
 echo "Network load balancer rule created: $lbRule"
 
