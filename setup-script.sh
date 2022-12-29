@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variables
-resourceGroup="az-perf"
-location="westus"
+resourceGroup="azureperf"
+location="eastus"
 osType="UbuntuLTS"
 vmssName="udacity-vmss"
 adminName="udacityadmin"
