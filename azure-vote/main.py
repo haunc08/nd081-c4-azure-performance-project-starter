@@ -19,7 +19,7 @@ from opencensus.trace.tracer import Tracer
 from opencensus.ext.flask.flask_middleware import FlaskMiddleware
 
 # Logging
-insights_conn = 'InstrumentationKey=54700140-05d7-4ca3-b3d9-0a3e7b18d639'
+insights_conn = 'InstrumentationKey=db016058-a9f5-4fd6-bec0-e9e51a46d936'
 config_integration.trace_integrations(['logging'])
 logger = logging.getLogger(__name__)
 handler = AzureLogHandler(connection_string=insights_conn)
@@ -84,10 +84,10 @@ def index():
 
         # Get current values
         vote1 = r.get(button1).decode('utf-8')
-        with tracer.span(name="Cats Vote") as span:
+        with tracer.span(name="Cats Vote"):
             print("Cat Vote")
         vote2 = r.get(button2).decode('utf-8')
-        with tracer.span(name="Dogs Vote") as span:
+        with tracer.span(name="Dogs Vote"):
             print("Dog Vote")
 
         # Return index with values
