@@ -26,7 +26,6 @@ handler = AzureLogHandler(connection_string=insights_conn)
 logger.addHandler(handler)
 logger.addHandler(AzureEventHandler(connection_string=insights_conn))
 logger.setLevel(logging.INFO)
-logger.log(30, 'Hello, World!')
 
 # Metrics
 stats = stats_module.stats
@@ -85,10 +84,10 @@ def index():
         # Get current values
         vote1 = r.get(button1).decode('utf-8')
         with tracer.span(name="Cats Vote"):
-            print("Cat Vote")
+            print("Cats Vote")
         vote2 = r.get(button2).decode('utf-8')
         with tracer.span(name="Dogs Vote"):
-            print("Dog Vote")
+            print("Dogs Vote")
 
         # Return index with values
         return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
@@ -118,7 +117,11 @@ def index():
 
             # Get current values
             vote1 = r.get(button1).decode('utf-8')
+            properties = {'custom_dimensions': {'Cats Vote': vote1}}
+            logger.info('Cats Vote', extra=properties)
             vote2 = r.get(button2).decode('utf-8')
+            properties = {'custom_dimensions': {'Dogs Vote': vote2}}
+            logger.info('Dogs Vote', extra=properties)
 
             # Return results
             return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
