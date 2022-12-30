@@ -124,8 +124,6 @@ def index():
             return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
 
 
-logger.error('test name', __name__)
-
 if __name__ == "__main__":
     # app.run()
     app.run(host='0.0.0.0', threaded=True, debug=True)  # remote
