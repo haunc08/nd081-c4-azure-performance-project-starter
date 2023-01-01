@@ -19,7 +19,7 @@ from opencensus.trace.tracer import Tracer
 from opencensus.ext.flask.flask_middleware import FlaskMiddleware
 
 # Logging
-insights_conn = 'InstrumentationKey=1d1708cc-06d9-4d02-9b90-ff39adf1f1d0'
+insights_conn = 'InstrumentationKey=36e1b209-2af9-4e9e-af35-f6928a14db07'
 config_integration.trace_integrations(['logging'])
 logger = logging.getLogger(__name__)
 handler = AzureLogHandler(connection_string=insights_conn)
